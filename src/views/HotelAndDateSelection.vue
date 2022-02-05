@@ -9,7 +9,7 @@
         <a-select-option
           v-for="(hotel, index) in hotelsDetail.hotels"
           :key="index"
-          @click="data.selectedHotel = hotel"
+          @click="setSelectedHotel(hotel)"
           >{{ hotel.hotel_name }}</a-select-option
         >
       </a-select>
@@ -40,6 +40,7 @@
                   v-model:value="data.outDate"
                   format="DD.MM.YYYY"
                   style="width: 100%"
+                  :disabled-date="disabledDate"
                 />
               </a-col>
               <a-col :span="4">
@@ -83,6 +84,7 @@ import { CalendarOutlined } from "@ant-design/icons-vue";
 import { mapActions, mapGetters } from "vuex";
 import Main from "@/views/Main";
 import Footer from "@/components/Footer";
+import moment from "moment";
 
 export default {
   name: "HotelAndDateSelection",
@@ -94,7 +96,10 @@ export default {
   data() {
     return {
       data: {
-        selectedHotel: null,
+        selectedHotel: {
+          hotel_name: "",
+          id: null,
+        },
         entryDate: null,
         outDate: null,
         adultCount: null,
@@ -106,7 +111,7 @@ export default {
     ...mapGetters(["hotelsDetail", "getSelectedHotelAndDateData"]),
     maxAdultSize: {
       get() {
-        if (!this.data.selectedHotel?.id) {
+        if (!this.data.selectedHotelId) {
           return 5;
         }
         const selectedHotelDetail = this.getSelectedHotelDetail();
@@ -115,7 +120,7 @@ export default {
     },
     childStatus: {
       get() {
-        if (!this.data.selectedHotel?.id) {
+        if (!this.data.selectedHotelId) {
           return true;
         }
         const selectedHotelDetail = this.getSelectedHotelDetail();
@@ -131,6 +136,13 @@ export default {
           (hotel) => hotel.id === this.data.selectedHotel.id
         ) || {}
       );
+    },
+    disabledDate(current) {
+      return current && current < moment(this.data.entryDate);
+    },
+    setSelectedHotel(hotel) {
+      this.data.selectedHotel = hotel;
+      this.data.selectedHotelId = hotel.id;
     },
     save() {
       const isValid =

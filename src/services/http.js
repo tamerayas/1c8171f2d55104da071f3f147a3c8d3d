@@ -1,3 +1,4 @@
+import { message } from "ant-design-vue";
 import axios from "axios";
 
 const instance = axios.create({
@@ -9,12 +10,11 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    // helpers.showError({
-    //   message: error.response
-    //     ? error.response.data?.message
-    //     : "Error: ERR_CONNECTION_REFUSED	",
-    //   responseStatus: error.response?.status,
-    // });
+    message.error(
+      error.response
+        ? error.response.data?.message
+        : "Bilinmeyen Bir Hata İle Karşılaşıldı!"
+    );
     return Promise.reject(error);
   }
 );

@@ -5,7 +5,9 @@
         <span>İşlemde...</span>
       </template>
       <template #icon>
-        <CalendarOutlined />
+        <div class="circle">
+          <CalendarOutlined />
+        </div>
       </template>
     </a-step>
     <a-step title="Oda Tipi ve Manzara Seçimi">
@@ -13,8 +15,11 @@
         <span>İşlemde...</span>
       </template>
       <template #icon>
-        <BankOutlined />
+        <div class="circle">
+          <BankOutlined />
+        </div>
       </template>
+      Otel ve Tarih Seçimi
     </a-step>
     <a-step>
       <template #title>Önizleme ve Ödeme İşlemleri</template>
@@ -22,7 +27,9 @@
         <span>İşlemde...</span>
       </template>
       <template #icon>
-        <CreditCardOutlined />
+        <div class="circle">
+          <CreditCardOutlined />
+        </div>
       </template>
     </a-step>
   </a-steps>
@@ -34,7 +41,7 @@ import {
   BankOutlined,
   CreditCardOutlined,
 } from "@ant-design/icons-vue";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   name: "Steps",
   components: {
@@ -43,12 +50,19 @@ export default {
     CreditCardOutlined,
   },
   computed: {
-    ...mapGetters(['getCurrentStep'])
+    ...mapGetters(["getCurrentStep"]),
   },
-  mounted() {
-    console.log('getCurrentStep',this.getCurrentStep);
-  }
 };
 </script>
 
-<style></style>
+<style scoped>
+.circle {
+  background-color: #fff;
+  border: 1px solid;
+  height: 40px;
+  border-radius: 60%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  width: 40px;
+}
+</style>
