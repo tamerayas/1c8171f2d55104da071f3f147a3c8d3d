@@ -1,7 +1,15 @@
 <template>
-  <Header />
-  <Steps />
-  <slot></slot>
+  <div class="header">
+    <Header />
+    <a-row type="flex" justify="space-around" align="middle">
+      <a-col :span="20">
+        <a-card class="steps-card">
+          <Steps />
+        </a-card>
+        <slot></slot>
+      </a-col>
+    </a-row>
+  </div>
 </template>
 
 <script>
@@ -16,5 +24,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -1,0 +1,41 @@
+.header {
+  margin: 20px 50px 20px 50px;
+}
+
+.page-header {
+  background-color: #073763;
+}
+
+.ant-page-header-heading-title,
+.ant-page-header-heading-sub-title,
+.ant-page-header-back-button {
+  color: #ffffff;
+}
+
+.steps-card {
+  margin-top: 30px;
+  background: #f2f2f2;
+  border-radius: 10px;
+}
+
+.footer-card {
+  height: 120px;
+  background-color: #073763;
+  border-radius: 10px;
+}
+
+.footer-button {
+  float: right;
+}
+
+.reservation-detail-card {
+  margin: 20px 0 20px 0;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.hotel-selection {
+  width: 100%; 
+  margin-bottom: 20px;
+}

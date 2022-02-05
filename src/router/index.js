@@ -1,11 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import HotelAndDateChoose from "@/views/HotelAndDateChoose";
+import HotelAndDateSelection from "@/views/HotelAndDateSelection";
+import RoomTypeAndLandscapeSelection from "@/views/RoomTypeAndLandscapeSelection";
+
 const routes = [
   {
     path: "/",
-    name: "HotelAndDateChoose",
-    component: HotelAndDateChoose,
+    name: "HotelAndDateSelection",
+    component: HotelAndDateSelection,
+  },
+  {
+    path: "/room-landscape-selection",
+    name: "RoomTypeAndLandscapeSelection",
+    component: RoomTypeAndLandscapeSelection,
   },
 ];
 
