@@ -1,9 +1,11 @@
 <template>
   <h2 style="margin-top: 10px">Manzara Seçimi</h2>
   <a-divider />
-  <a-row :gutter="16">
+  <a-row :gutter="[16, 16]">
     <a-col
-      :span="24 / roomScenic.length"
+      :xs="{ span: 24 }"
+      :md="{ span: 8 }"
+      :lg="{ span: 8 }"
       v-for="(room, index) in roomScenic"
       :key="index"
     >
@@ -58,9 +60,11 @@ export default {
         isActive: false,
       };
     });
-    this.roomScenic.find(
-      (room) => room.id === this.getSelectedLandscapeData.id
-    ).isActive = this.getSelectedLandscapeData.isActive;
+    if (this.getSelectedLandscapeData) {
+      this.roomScenic.find(
+        (room) => room.id === this.getSelectedLandscapeData.id
+      ).isActive = true;
+    }
   },
 };
 </script>

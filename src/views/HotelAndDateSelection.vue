@@ -13,8 +13,13 @@
           >{{ hotel.hotel_name }}</a-select-option
         >
       </a-select>
-      <a-row type="flex">
-        <a-col :span="6">
+      <a-row type="flex" :gutter="[0, 16]">
+        <a-col
+          :span="6"
+          :xs="{ span: 24 }"
+          :md="{ span: 12 }"
+          :lg="{ span: 6 }"
+        >
           <a-card :span="6">
             <p>Giriş Tarihi</p>
             <a-row type="flex">
@@ -31,7 +36,12 @@
             </a-row>
           </a-card>
         </a-col>
-        <a-col :span="6">
+        <a-col
+          :span="6"
+          :xs="{ span: 24 }"
+          :md="{ span: 12 }"
+          :lg="{ span: 6 }"
+        >
           <a-card :span="6">
             <p>Çıkış Tarihi</p>
             <a-row type="flex">
@@ -49,7 +59,12 @@
             </a-row>
           </a-card>
         </a-col>
-        <a-col :span="6">
+        <a-col
+          :span="6"
+          :xs="{ span: 24 }"
+          :md="{ span: 12 }"
+          :lg="{ span: 6 }"
+        >
           <a-card :span="6">
             <p>Yetişkin Sayısı</p>
             <a-input-number
@@ -60,7 +75,13 @@
             />
           </a-card>
         </a-col>
-        <a-col :span="6">
+        <a-col
+          :span="6"
+          :xs="{ span: 24 }"
+          :sm="{ span: 24 }"
+          :md="{ span: 12 }"
+          :lg="{ span: 6 }"
+        >
           <a-card :span="6">
             <p>Çocuk Sayısı</p>
             <a-input-number

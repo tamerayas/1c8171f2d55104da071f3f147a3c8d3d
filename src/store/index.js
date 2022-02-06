@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
 import axios from "@/services/http";
+import moment from "moment";
+import { message } from "ant-design-vue";
 
 export default createStore({
   state: {
@@ -26,8 +28,54 @@ export default createStore({
       commit("setCurrentStep", 2);
     },
     setSelectedRoomAndLandscape({ commit }, payload) {
-      commit("setSelectedRoomAndLandscapeData", payload)
-      commit("setCurrentStep", 3)
+      commit("setSelectedRoomAndLandscapeData", payload);
+      commit("setCurrentStep", 3);
+    },
+    setCouponCode(_, payload) {
+      return axios.get(`/coupons?code=${payload}`).then(({ data }) => {
+        if (data.length > 1) {
+          message.error("Hatalı kod girdiniz!");
+          return;
+        }
+
+        const expirationAt = moment(data[0].expiration_at).format("YYYY-MM-DD");
+        const dateDiff = moment().diff(expirationAt, "days");
+        if (dateDiff < 0) {
+          localStorage.setItem("couponCode", JSON.stringify(data));
+          return data[0].discount_ammount;
+        } else {
+          message.error(
+            "Girmiş olduğunuz kupon kodunun kullanım süresi geçmiş!"
+          );
+        }
+      });
+    },
+    createNewReservation({ rootGetters, commit }, payload) {
+      const hotelData = rootGetters["getSelectedHotelAndDateData"];
+      const selectedRoom = rootGetters["getSelectedRoomData"];
+      const selectedLandscape = rootGetters["getSelectedLandscapeData"];
+      const pricePreview = rootGetters["getPricePreview"];
+      const couponCode = rootGetters["getAppliedCouponCode"];
+      axios
+        .post("/hotel-bookings", {
+          hotel_id: Number(hotelData.selectedHotelId),
+          start_date: moment(hotelData.entryDate).format("YYYY-MM-DD"),
+          end_date: moment(hotelData.outDate).format("YYYY-MM-DD"),
+          adult: hotelData.adultCount,
+          child: hotelData.childrenCount || 0,
+          room_type: selectedRoom.id,
+          room_scenic: selectedLandscape.id,
+          price: pricePreview.totalPrice,
+          coupon_code: couponCode[0].code,
+          card_name: payload.name,
+          card_number: payload.number,
+          card_date_month: payload.month,
+          card_date_year: payload.year,
+          card_cvv: payload.cvv,
+        })
+        .then(() => {
+          commit("setCurrentStep", 4);
+        });
     },
   },
   mutations: {
@@ -50,8 +98,10 @@ export default createStore({
         "selectedLandscape",
         JSON.stringify(payload.landscape)
       );
-    }
-
+    },
+    setPricePreview(_, payload) {
+      localStorage.setItem("pricePreview", JSON.stringify(payload));
+    },
   },
   getters: {
     hotelsDetail(state) {
@@ -78,6 +128,12 @@ export default createStore({
     },
     getSelectedLandscapeData() {
       return JSON.parse(localStorage.getItem("selectedLandscape"));
+    },
+    getAppliedCouponCode() {
+      return JSON.parse(localStorage.getItem("couponCode"));
+    },
+    getPricePreview() {
+      return JSON.parse(localStorage.getItem("pricePreview"));
     },
   },
 });

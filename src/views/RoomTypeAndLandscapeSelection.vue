@@ -3,7 +3,7 @@
     <SelectedHotelDetails />
     <RoomTypeSelection @selected="setSelectedRoom" />
     <LandscapeSelection @selected="setSelectedLandscape" />
-    <Footer @save="save" />
+    <Footer @save="save" is-show-back-button />
   </Main>
 </template>
 
@@ -49,6 +49,8 @@ export default {
       this.setSelectedRoomAndLandscape({
         room: this.selectedRoom,
         landscape: this.selectedLandscape,
+      }).then(() => {
+        this.$router.push({ name: "PreviewAndPayment" });
       });
     },
   },

@@ -1,9 +1,11 @@
 <template>
   <h2 style="margin-top: 10px">Oda Tipi Seçimi</h2>
   <a-divider />
-  <a-row :gutter="16">
+  <a-row :gutter="[16, 16]">
     <a-col
-      :span="24 / roomTypes.length"
+      :xs="{ span: 24 }"
+      :md="{ span: 8 }"
+      :lg="{ span: 8 }"
       v-for="(room, index) in roomTypes"
       :key="index"
     >
@@ -22,7 +24,7 @@
           </a-col>
           <a-col :span="6">
             <h3 style="text-align: right">
-              {{ calculatePrice(room.price) }} TL
+              {{ calculatePrice(room.price).toLocaleString() }} TL
             </h3>
           </a-col>
         </a-row>
@@ -65,12 +67,16 @@ export default {
           this.getSelectedHotelAndDateData.childrenCount) *
         price *
         this.dayCount
-      ).toLocaleString();
+      );
     },
     selectRoom(room) {
       this.roomTypes.forEach((data) => {
         if (data.id === room.id) {
-          this.$emit("selected", data);
+          this.$emit("selected", {
+            ...data,
+            calculatedPrice: this.calculatePrice(data.price),
+            dayCount: this.dayCount,
+          });
           data.isActive = true;
           return;
         }
@@ -85,9 +91,11 @@ export default {
         isActive: false,
       };
     });
-    this.roomTypes.find(
-      (room) => room.id === this.getSelectedRoomData.id
-    ).isActive = this.getSelectedRoomData.isActive;
+    if (this.getSelectedRoomData) {
+      this.roomTypes.find(
+        (room) => room.id === this.getSelectedRoomData.id
+      ).isActive = true;
+    }
   },
 };
 </script>

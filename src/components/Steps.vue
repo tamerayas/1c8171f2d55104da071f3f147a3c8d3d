@@ -54,15 +54,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.circle {
-  background-color: #fff;
-  border: 1px solid;
-  height: 40px;
-  border-radius: 60%;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  width: 40px;
-}
-</style>

@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import HotelAndDateSelection from "@/views/HotelAndDateSelection";
 import RoomTypeAndLandscapeSelection from "@/views/RoomTypeAndLandscapeSelection";
+import PreviewAndPayment from "@/views/PreviewAndPayment";
+import BookingRegistration from "@/views/BookingRegistration";
 
 const routes = [
   {
@@ -14,6 +16,16 @@ const routes = [
     name: "RoomTypeAndLandscapeSelection",
     component: RoomTypeAndLandscapeSelection,
   },
+  {
+    path: "/preview-and-payment",
+    name: "PreviewAndPayment",
+    component: PreviewAndPayment,
+  },
+  {
+    path: "/booking-registration",
+    name: "BookingRegistration",
+    component: BookingRegistration
+  }
 ];
 
 const router = createRouter({

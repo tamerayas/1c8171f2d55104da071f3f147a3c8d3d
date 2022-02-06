@@ -1,6 +1,6 @@
 <template>
   <a-card class="footer-card">
-    <a-button type="primary" v-if="isShowBackButton">
+    <a-button type="primary" v-if="isShowBackButton" @click="$router.go(-1)">
       <ArrowLeftOutlined />
       <a-label> Geri </a-label>
     </a-button>

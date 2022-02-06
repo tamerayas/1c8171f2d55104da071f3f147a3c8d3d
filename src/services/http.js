@@ -11,9 +11,7 @@ instance.interceptors.response.use(
   },
   function (error) {
     message.error(
-      error.response
-        ? error.response.data?.message
-        : "Bilinmeyen Bir Hata İle Karşılaşıldı!"
+      error ? error.response.data : "Bilinmeyen Bir Hata İle Karşılaşıldı!"
     );
     return Promise.reject(error);
   }

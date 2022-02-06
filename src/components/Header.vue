@@ -7,7 +7,7 @@
     @back="handleGoBack"
   >
     <template #extra>
-      <a-button key="1" type="secondary">Yeni Rezervasyon Yap</a-button>
+      <a-button key="1">Yeni Rezervasyon Yap</a-button>
     </template>
   </a-page-header>
 </template>
