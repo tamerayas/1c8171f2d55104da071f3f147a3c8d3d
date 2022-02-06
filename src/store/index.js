@@ -19,7 +19,6 @@ export default createStore({
     fetchHotelDetails({ commit }) {
       return axios.get("/hotel-details").then(({ data }) => {
         commit("setHotelDetails", data);
-        console.log(data);
         return data;
       });
     },

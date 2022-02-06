@@ -1,8 +1,26 @@
 <template>
   <div class="header">
-    <a-card class="text-align: center">
-      <CarryOutOutlined style="font-size: 50px; color: #009e0f" />
-    </a-card>
+    <div style="text-align: center">
+      <a-card>
+        <CarryOutOutlined
+          style="font-size: 50px; color: #009e0f; display: block"
+        />
+        <div class="mt-20">
+          <p>Rezervasyon kaydınız alınmıştır.</p>
+          <p>
+            Rezervasyon özetiniz aşağıdaki gibidir. Rezervasyon kaydınızda
+            değişiklik veya yeni rezervasyon yapmak için aşağıdaki linkleri
+            kullanabilirsiniz.
+          </p>
+          <a-col :span="24" :gutter="[12, 12]">
+            <a-button type="primary">Yeni Rezervasyon Yap</a-button>
+            <a-button type="primary">Rezervasyonu Güncelle</a-button>
+            <a-button type="primary">Rezervasyonu İptal Et</a-button>
+          </a-col>
+        </div>
+      </a-card>
+    </div>
+
     <a-card class="main-bg">
       <HotelDetailsPreview />
       <PricePreview />

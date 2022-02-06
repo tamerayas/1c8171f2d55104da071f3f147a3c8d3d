@@ -36,6 +36,7 @@ import CreditCard from "@/views/CreditCard";
 import HotelPreview from "@/views/HotelPreview";
 import Footer from "@/components/Footer.vue";
 import { mapActions } from "vuex";
+import { message } from "ant-design-vue";
 export default {
   name: "PreviewAndPayment",
   components: {
@@ -69,6 +70,7 @@ export default {
         this.createNewReservation(this.creditCardData).then(() => {
           this.$router.push({ name: "BookingRegistration" });
         });
+      else message.warn("Lütfen tüm zorunlu alanları doldurunuz!");
     },
   },
 };
