@@ -26,10 +26,10 @@
             <b class="fl-r"> {{ selectedRoom.calculatedPrice }} TL</b>
           </a-col>
         </a-row>
-        <a-row v-if="appliedCouponPrice">
-          <a-col :span="12"> <b>İndirim</b> ({{ couponCode }}) </a-col>
+        <a-row>
+          <a-col :span="12"> <b>İndirim</b> ({{ couponCodeVal }}) </a-col>
           <a-col :span="12">
-            <b class="fl-r"> -{{ appliedCouponPrice }} TL</b>
+            <b class="fl-r"> -{{ appliedCouponPriceVal }} TL</b>
           </a-col>
         </a-row>
         <a-divider></a-divider>
@@ -64,7 +64,7 @@ export default {
     ...mapGetters({
       selectedRoom: "getSelectedRoomData",
       landscape: "getSelectedLandscapeData",
-      couponCode: "getAppliedCouponCode",
+      couponCodeData: "getAppliedCouponCode",
     }),
     priceRate: {
       get() {
@@ -82,7 +82,23 @@ export default {
         return (
           calculatedPrice +
           (calculatedPrice * priceRate) / 100 -
-          (this.appliedCouponPrice || 0)
+          (this.appliedCouponPriceVal || 0)
+        );
+      },
+    },
+    couponCodeVal: {
+      get() {
+        return (
+          this.couponCode ||
+          (this.couponCodeData ? this.couponCodeData[0].code : "")
+        );
+      },
+    },
+    appliedCouponPriceVal: {
+      get() {
+        return (
+          this.appliedCouponPrice ||
+          (this.couponCodeData ? this.couponCodeData[0].discount_ammount : 0)
         );
       },
     },
@@ -90,14 +106,15 @@ export default {
   methods: {
     ...mapMutations(["setPricePreview"]),
   },
-  beforeUnmount() {
+  //Bak
+  mounted() {
     this.setPricePreview({
       price: this.selectedRoom.price.toLocaleString(),
       priceRate: this.landscape.price_rate,
       dayCount: this.selectedRoom.dayCount,
       calculatedPrice: this.calculatedPrice,
-      couponCode: this.couponCode,
-      appliedCouponCodePrice: this.appliedCouponPrice,
+      couponCode: this.couponCodeVal,
+      appliedCouponCodePrice: this.appliedCouponPriceVal,
       totalPrice: this.totalPrice,
     });
   },

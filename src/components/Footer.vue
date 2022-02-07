@@ -1,11 +1,19 @@
 <template>
   <a-card class="footer-card">
-    <a-button type="primary" v-if="isShowBackButton" @click="$router.go(-1)">
+    <a-button
+      v-if="isShowBackButton"
+      type="primary"
+      class="page-header"
+      @click="$router.go(-1)"
+    >
       <ArrowLeftOutlined />
       <a-label> Geri </a-label>
     </a-button>
-    <a-button type="primary" class="footer-button" @click="$emit('save')"
-      >Kaydet ve Devam Et</a-button
+    <a-button
+      type="primary"
+      class="footer-button page-header"
+      @click="$emit('save')"
+      >{{ title }}</a-button
     >
   </a-card>
 </template>
@@ -24,6 +32,11 @@ export default {
       default: false,
       required: false,
       type: Boolean,
+    },
+    title: {
+      default: "Kaydet ve Devam Et",
+      required: false,
+      type: String,
     },
   },
 };

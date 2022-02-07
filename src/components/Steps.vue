@@ -1,7 +1,7 @@
 <template>
-  <a-steps :current="getCurrentStep">
+  <a-steps :current="Number(getCurrentStep)">
     <a-step title="Otel ve Tarih Seçimi">
-      <template #description v-if="getCurrentStep === 1">
+      <template #description v-if="Number(getCurrentStep) === 1">
         <span>İşlemde...</span>
       </template>
       <template #icon>
@@ -11,7 +11,7 @@
       </template>
     </a-step>
     <a-step title="Oda Tipi ve Manzara Seçimi">
-      <template #description v-if="getCurrentStep === 2">
+      <template #description v-if="Number(getCurrentStep) === 2">
         <span>İşlemde...</span>
       </template>
       <template #icon>
@@ -23,7 +23,7 @@
     </a-step>
     <a-step>
       <template #title>Önizleme ve Ödeme İşlemleri</template>
-      <template #description v-if="getCurrentStep === 3">
+      <template #description v-if="Number(getCurrentStep) === 3">
         <span>İşlemde...</span>
       </template>
       <template #icon>

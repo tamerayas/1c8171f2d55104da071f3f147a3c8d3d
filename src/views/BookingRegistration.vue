@@ -16,10 +16,12 @@
             <a-button type="primary" class="mr-20" @click="newReservation"
               >Yeni Rezervasyon Yap</a-button
             >
-            <a-button type="primary" class="mr-20"
+            <a-button type="primary" class="mr-20" @click="editReservation"
               >Rezervasyonu Güncelle</a-button
             >
-            <a-button type="primary">Rezervasyonu İptal Et</a-button>
+            <a-button type="primary" @click="showDeleteConfirm"
+              >Rezervasyonu İptal Et</a-button
+            >
           </div>
         </div>
       </a-card>
@@ -35,20 +37,38 @@
 import HotelDetailsPreview from "@/views/HotelDetailsPreview";
 import PricePreview from "@/views/PricePreview";
 import { CarryOutOutlined } from "@ant-design/icons-vue";
-import { mapMutations } from "vuex";
+import newReservationMixin from "@/mixins/newReservation";
+import { mapActions, mapMutations } from "vuex";
+import { message, Modal } from "ant-design-vue";
 
 export default {
   name: "BookingRegistration",
+  mixins: [newReservationMixin],
   components: {
     HotelDetailsPreview,
     PricePreview,
     CarryOutOutlined,
   },
   methods: {
-    ...mapMutations(["resetAll"]),
-    newReservation() {
-      this.resetAll();
+    ...mapActions(["removeReservation"]),
+    ...mapMutations(["updateReservation"]),
+    editReservation() {
+      // It will be edit
+      this.updateReservation(true);
       this.$router.push({ name: "HotelAndDateSelection" });
+    },
+    showDeleteConfirm() {
+      Modal.confirm({
+        title: () =>
+          "Rezervasyon kaydınızı iptal etmek istediğinize emin misiniz?",
+        okText: () => "Evet",
+        okType: "danger",
+        cancelText: () => "Hayır",
+        onOk: () =>
+          this.removeReservation().then(() => {
+            message.success("Silme işlemi başarıyla gerçekleşti!");
+          }),
+      });
     },
   },
 };

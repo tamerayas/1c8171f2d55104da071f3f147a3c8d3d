@@ -26,7 +26,11 @@
         </a-card>
       </a-col>
     </a-row>
-    <Footer @save="save" />
+    <Footer
+      @save="save"
+      :is-show-back-button="true"
+      title="Ödeme Yap ve Bitir"
+    />
   </Main>
 </template>
 

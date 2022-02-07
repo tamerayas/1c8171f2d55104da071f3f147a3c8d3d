@@ -7,6 +7,7 @@ export default createStore({
   state: {
     hotels: [],
     hotelsDetail: [],
+    editReservation: false,
   },
   actions: {
     fetchHotels({ commit, dispatch }) {
@@ -49,33 +50,57 @@ export default createStore({
         }
       });
     },
-    createNewReservation({ rootGetters, commit }, payload) {
+    createNewReservation({ rootGetters, commit, state, dispatch }, payload) {
       const hotelData = rootGetters["getSelectedHotelAndDateData"];
       const selectedRoom = rootGetters["getSelectedRoomData"];
       const selectedLandscape = rootGetters["getSelectedLandscapeData"];
       const pricePreview = rootGetters["getPricePreview"];
       const couponCode = rootGetters["getAppliedCouponCode"];
+
+      const reqData = {
+        hotel_id: Number(hotelData.selectedHotelId),
+        start_date: moment(hotelData.entryDate).format("YYYY-MM-DD"),
+        end_date: moment(hotelData.outDate).format("YYYY-MM-DD"),
+        adult: hotelData.adultCount,
+        child: hotelData.childrenCount || 0,
+        room_type: selectedRoom.id,
+        room_scenic: selectedLandscape.id,
+        price: pricePreview.totalPrice,
+        coupon_code: couponCode ? couponCode[0].code : "",
+        card_name: payload.name,
+        card_number: payload.number,
+        card_date_month: payload.month,
+        card_date_year: payload.year,
+        card_cvv: payload.cvv,
+      };
+
+      if (state.editReservation) {
+        //It will be edit when select edit reservation
+        dispatch("editReservation", reqData);
+        return;
+      }
+
+      return axios.post("/hotel-bookings", reqData).then(({ data }) => {
+        commit("setCurrentStep", 4);
+        commit("setReservationId", data.id);
+        return data;
+      });
+    },
+    editReservation({ commit, rootGetters }, payload) {
+      const reservationId = rootGetters["getReservationId"];
       return axios
-        .post("/hotel-bookings", {
-          hotel_id: Number(hotelData.selectedHotelId),
-          start_date: moment(hotelData.entryDate).format("YYYY-MM-DD"),
-          end_date: moment(hotelData.outDate).format("YYYY-MM-DD"),
-          adult: hotelData.adultCount,
-          child: hotelData.childrenCount || 0,
-          room_type: selectedRoom.id,
-          room_scenic: selectedLandscape.id,
-          price: pricePreview.totalPrice,
-          coupon_code: couponCode[0].code,
-          card_name: payload.name,
-          card_number: payload.number,
-          card_date_month: payload.month,
-          card_date_year: payload.year,
-          card_cvv: payload.cvv,
-        })
+        .put(`/hotel-bookings/${reservationId}`, payload)
         .then(({ data }) => {
-          commit("setCurrentStep", 4);
-          return data;
+          commit("updateReservation", false);
+          commit("setReservationId", data.id);
         });
+    },
+    removeReservation({ commit, rootGetters }) {
+      const reservationId = rootGetters["getReservationId"]
+      axios.delete(`/hotel-bookings/${reservationId}`).then(() => {
+        commit("removeReservation", false);
+        commit("resetAll");
+      });
     },
   },
   mutations: {
@@ -104,7 +129,16 @@ export default createStore({
     },
     resetAll() {
       localStorage.clear();
-    }
+    },
+    setReservationId(_, payload) {
+      localStorage.setItem("reservationId", payload)
+    },
+    updateReservation(state, payload) {
+      state.editReservation = payload;
+    },
+    removeReservation() {
+      localStorage.setItem("reservationId", null)
+    },
   },
   getters: {
     hotelsDetail(state) {
@@ -127,7 +161,9 @@ export default createStore({
         return null;
       }
       const hotelsDetail = JSON.parse(localStorage.getItem("hotelsDetail"));
-      return hotelsDetail.find((detail) => detail.id === selectedHotelId) || null
+      return (
+        hotelsDetail.find((detail) => detail.id === selectedHotelId) || null
+      );
     },
     getSelectedRoomData() {
       return JSON.parse(localStorage.getItem("selectedRoom"));
@@ -141,5 +177,8 @@ export default createStore({
     getPricePreview() {
       return JSON.parse(localStorage.getItem("pricePreview"));
     },
+    getReservationId() {
+      return localStorage.getItem("reservationId")
+    }
   },
 });
