@@ -1,5 +1,5 @@
 <template>
-  <a-row type="flex" class="mt-20">
+  <a-row type="flex" class="mt-20" v-if="selectedRoom">
     <a-col :span="24">
       <a-card class="preview">
         <a-row>
@@ -26,12 +26,10 @@
             <b class="fl-r"> {{ selectedRoom.calculatedPrice }} TL</b>
           </a-col>
         </a-row>
-        <a-row v-if="couponCodeData?.length">
+        <a-row v-if="appliedCouponPrice">
+          <a-col :span="12"> <b>İndirim</b> ({{ couponCode }}) </a-col>
           <a-col :span="12">
-            <b>İndirim</b> ({{ couponCodeData[0].code }})
-          </a-col>
-          <a-col :span="12">
-            <b class="fl-r"> -{{ couponCodeData[0].discount_ammount }} TL</b>
+            <b class="fl-r"> -{{ appliedCouponPrice }} TL</b>
           </a-col>
         </a-row>
         <a-divider></a-divider>
@@ -42,12 +40,26 @@
       </a-card>
     </a-col>
   </a-row>
+  <Warning v-else />
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import Warning from "@/components/Warning";
 export default {
   name: "PricePreview",
+  components: {
+    Warning,
+  },
+  props: {
+    couponCode: {
+      type: String,
+      default: "",
+    },
+    appliedCouponPrice: {
+      default: 0,
+    },
+  },
   computed: {
     ...mapGetters({
       selectedRoom: "getSelectedRoomData",
@@ -70,13 +82,8 @@ export default {
         return (
           calculatedPrice +
           (calculatedPrice * priceRate) / 100 -
-          (this.appliedCouponCodePrice || 0)
+          (this.appliedCouponPrice || 0)
         );
-      },
-    },
-    couponCodeData: {
-      get() {
-        return this.couponCode;
       },
     },
   },
@@ -90,7 +97,7 @@ export default {
       dayCount: this.selectedRoom.dayCount,
       calculatedPrice: this.calculatedPrice,
       couponCode: this.couponCode,
-      appliedCouponCodePrice: this.appliedCouponCodePrice,
+      appliedCouponCodePrice: this.appliedCouponPrice,
       totalPrice: this.totalPrice,
     });
   },

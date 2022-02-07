@@ -12,15 +12,18 @@
             değişiklik veya yeni rezervasyon yapmak için aşağıdaki linkleri
             kullanabilirsiniz.
           </p>
-          <a-col :span="24" :gutter="[12, 12]">
-            <a-button type="primary">Yeni Rezervasyon Yap</a-button>
-            <a-button type="primary">Rezervasyonu Güncelle</a-button>
+          <div>
+            <a-button type="primary" class="mr-20" @click="newReservation"
+              >Yeni Rezervasyon Yap</a-button
+            >
+            <a-button type="primary" class="mr-20"
+              >Rezervasyonu Güncelle</a-button
+            >
             <a-button type="primary">Rezervasyonu İptal Et</a-button>
-          </a-col>
+          </div>
         </div>
       </a-card>
     </div>
-
     <a-card class="main-bg">
       <HotelDetailsPreview />
       <PricePreview />
@@ -32,6 +35,7 @@
 import HotelDetailsPreview from "@/views/HotelDetailsPreview";
 import PricePreview from "@/views/PricePreview";
 import { CarryOutOutlined } from "@ant-design/icons-vue";
+import { mapMutations } from "vuex";
 
 export default {
   name: "BookingRegistration",
@@ -39,6 +43,13 @@ export default {
     HotelDetailsPreview,
     PricePreview,
     CarryOutOutlined,
+  },
+  methods: {
+    ...mapMutations(["resetAll"]),
+    newReservation() {
+      this.resetAll();
+      this.$router.push({ name: "HotelAndDateSelection" });
+    },
   },
 };
 </script>

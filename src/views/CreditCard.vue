@@ -44,7 +44,11 @@
       </a-select>
     </a-col>
     <a-col :span="6">
-      <a-input placeholder="Cvv" v-model:value="data.cvv"></a-input>
+      <a-input
+        :maxlength="3"
+        placeholder="Cvv"
+        v-model:value="data.cvv"
+      ></a-input>
     </a-col>
   </a-row>
   <Footer />

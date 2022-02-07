@@ -55,7 +55,7 @@ export default createStore({
       const selectedLandscape = rootGetters["getSelectedLandscapeData"];
       const pricePreview = rootGetters["getPricePreview"];
       const couponCode = rootGetters["getAppliedCouponCode"];
-      axios
+      return axios
         .post("/hotel-bookings", {
           hotel_id: Number(hotelData.selectedHotelId),
           start_date: moment(hotelData.entryDate).format("YYYY-MM-DD"),
@@ -72,8 +72,9 @@ export default createStore({
           card_date_year: payload.year,
           card_cvv: payload.cvv,
         })
-        .then(() => {
+        .then(({ data }) => {
           commit("setCurrentStep", 4);
+          return data;
         });
     },
   },
@@ -101,6 +102,9 @@ export default createStore({
     setPricePreview(_, payload) {
       localStorage.setItem("pricePreview", JSON.stringify(payload));
     },
+    resetAll() {
+      localStorage.clear();
+    }
   },
   getters: {
     hotelsDetail(state) {
@@ -113,14 +117,17 @@ export default createStore({
       return localStorage.getItem("currentStep");
     },
     getSelectedHotelAndDateData() {
-      return JSON.parse(localStorage.getItem("hotelAndDateSelection"));
+      return JSON.parse(localStorage.getItem("hotelAndDateSelection")) || null;
     },
     getSelectedHotelDetails() {
       const selectedHotelId = JSON.parse(
         localStorage.getItem("hotelAndDateSelection")
-      ).selectedHotelId;
+      )?.selectedHotelId;
+      if (!selectedHotelId) {
+        return null;
+      }
       const hotelsDetail = JSON.parse(localStorage.getItem("hotelsDetail"));
-      return hotelsDetail.find((detail) => detail.id === selectedHotelId);
+      return hotelsDetail.find((detail) => detail.id === selectedHotelId) || null
     },
     getSelectedRoomData() {
       return JSON.parse(localStorage.getItem("selectedRoom"));

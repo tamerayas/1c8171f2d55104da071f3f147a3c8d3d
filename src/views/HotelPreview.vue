@@ -21,7 +21,10 @@
       </a-card>
     </a-col>
   </a-row>
-  <PricePreview />
+  <PricePreview
+    :coupon-code="couponCode"
+    :applied-coupon-price="appliedCouponCodePrice"
+  />
 </template>
 
 <script>
@@ -54,8 +57,12 @@ export default {
     },
   },
   mounted() {
-    this.couponCode = this.appliedCouponCode[0].code;
-    this.appliedCouponCodePrice = this.appliedCouponCode[0].discount_ammount;
+    this.couponCode =
+      this.appliedCouponCode?.length > 0 ? this.appliedCouponCode[0].code : "";
+    this.appliedCouponCodePrice =
+      this.appliedCouponCode?.length > 0
+        ? this.appliedCouponCode[0].discount_ammount
+        : 0;
   },
 };
 </script>

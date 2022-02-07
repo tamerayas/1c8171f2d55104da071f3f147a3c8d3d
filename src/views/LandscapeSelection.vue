@@ -54,7 +54,7 @@ export default {
     },
   },
   mounted() {
-    this.roomScenic = this.getSelectedHotelDetails.room_scenic.map((data) => {
+    this.roomScenic = this.getSelectedHotelDetails?.room_scenic.map((data) => {
       return {
         ...data,
         isActive: false,

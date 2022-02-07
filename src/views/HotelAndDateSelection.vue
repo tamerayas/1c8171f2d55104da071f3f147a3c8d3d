@@ -102,7 +102,7 @@
 
 <script>
 import { CalendarOutlined } from "@ant-design/icons-vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import Main from "@/views/Main";
 import Footer from "@/components/Footer";
 import moment from "moment";
@@ -151,6 +151,7 @@ export default {
   },
   methods: {
     ...mapActions(["fetchHotels", "saveHotelAndDateSelection"]),
+    ...mapMutations(["setCurrentStep"]),
     getSelectedHotelDetail() {
       return (
         this.hotelsDetail.details.find(
@@ -182,6 +183,7 @@ export default {
     },
   },
   created() {
+    this.setCurrentStep(1);
     this.fetchHotels();
     Object.assign(this.data, this.getSelectedHotelAndDateData);
   },

@@ -1,20 +1,28 @@
 <template>
   <Main>
     <SelectedHotelDetails />
-    <RoomTypeSelection @selected="setSelectedRoom" />
-    <LandscapeSelection @selected="setSelectedLandscape" />
+    <RoomTypeSelection
+      @selected="setSelectedRoom"
+      v-if="getSelectedHotelAndDateData"
+    />
+    <LandscapeSelection
+      @selected="setSelectedLandscape"
+      v-if="getSelectedHotelDetails"
+    />
+    <Warning v-if="!getSelectedHotelDetails && !getSelectedHotelAndDateData" />
     <Footer @save="save" is-show-back-button />
   </Main>
 </template>
 
 <script>
+import { message } from "ant-design-vue";
+import { mapActions, mapGetters } from "vuex";
 import SelectedHotelDetails from "@/views/SelectedHotelDetails";
 import RoomTypeSelection from "@/views/RoomTypeSelection";
 import LandscapeSelection from "@/views/LandscapeSelection";
 import Main from "@/views/Main";
 import Footer from "@/components/Footer";
-import { message } from "ant-design-vue";
-import { mapActions, mapGetters } from "vuex";
+import Warning from "@/components/Warning";
 export default {
   name: "RoomTypeAndLandscapeSelection",
   components: {
@@ -23,6 +31,7 @@ export default {
     Footer,
     RoomTypeSelection,
     LandscapeSelection,
+    Warning,
   },
   data() {
     return {
@@ -31,7 +40,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getSelectedRoomData", "getSelectedLandscapeData"]),
+    ...mapGetters([
+      "getSelectedRoomData",
+      "getSelectedLandscapeData",
+      "getSelectedHotelAndDateData",
+      "getSelectedHotelDetails",
+    ]),
   },
   methods: {
     ...mapActions(["setSelectedRoomAndLandscape"]),
@@ -57,6 +71,10 @@ export default {
   mounted() {
     this.selectedRoom = this.getSelectedRoomData;
     this.selectedLandscape = this.getSelectedLandscapeData;
+
+    if (!this.getSelectedHotelAndDateData) {
+      message.error("Lütfen önceki sayfaya dönüp seçim yapınız!");
+    }
   },
 };
 </script>

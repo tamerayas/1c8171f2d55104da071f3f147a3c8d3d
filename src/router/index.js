@@ -24,8 +24,8 @@ const routes = [
   {
     path: "/booking-registration",
     name: "BookingRegistration",
-    component: BookingRegistration
-  }
+    component: BookingRegistration,
+  },
 ];
 
 const router = createRouter({
