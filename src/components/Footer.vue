@@ -7,7 +7,7 @@
       @click="$router.go(-1)"
     >
       <ArrowLeftOutlined />
-      <a-label> Geri </a-label>
+      <label> Geri </label>
     </a-button>
     <a-button
       type="primary"

@@ -7,13 +7,13 @@
           <a-col :span="18">
             <a-input
               placeholder="Kupon Kodu"
-              style="width: 100%"
+              class="full-width"
               v-model:value="couponCode"
             >
             </a-input>
           </a-col>
           <a-col :span="6">
-            <a-button style="float: right" type="primary" @click="applyCoupon">
+            <a-button class="fl-r" type="primary" @click="applyCoupon">
               Kodu Kullan
             </a-button>
           </a-col>

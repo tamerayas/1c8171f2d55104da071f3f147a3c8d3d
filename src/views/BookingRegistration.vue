@@ -1,10 +1,8 @@
 <template>
   <div class="header">
-    <div style="text-align: center">
+    <div class="center">
       <a-card>
-        <CarryOutOutlined
-          style="font-size: 50px; color: #009e0f; display: block"
-        />
+        <CarryOutOutlined class="icon" />
         <div class="mt-20">
           <p>Rezervasyon kaydınız alınmıştır.</p>
           <p>
@@ -26,10 +24,11 @@
         </div>
       </a-card>
     </div>
-    <a-card class="main-bg">
+    <a-card class="main-bg" v-if="!deleted">
       <HotelDetailsPreview />
       <PricePreview />
     </a-card>
+    <NotFound v-else />
   </div>
 </template>
 
@@ -38,8 +37,9 @@ import HotelDetailsPreview from "@/views/HotelDetailsPreview";
 import PricePreview from "@/views/PricePreview";
 import { CarryOutOutlined } from "@ant-design/icons-vue";
 import newReservationMixin from "@/mixins/newReservation";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import { message, Modal } from "ant-design-vue";
+import NotFound from "@/pages/NotFound";
 
 export default {
   name: "BookingRegistration",
@@ -48,16 +48,33 @@ export default {
     HotelDetailsPreview,
     PricePreview,
     CarryOutOutlined,
+    NotFound,
+  },
+  data() {
+    return {
+      deleted: false,
+    };
+  },
+  computed: {
+    ...mapGetters(["getReservationId"]),
   },
   methods: {
     ...mapActions(["removeReservation"]),
     ...mapMutations(["updateReservation"]),
     editReservation() {
       // It will be edit
+      if (!this.getReservationId) {
+        message.error("Düzenlenecek rezervasyon bulunamadı!");
+        return;
+      }
       this.updateReservation(true);
       this.$router.push({ name: "HotelAndDateSelection" });
     },
     showDeleteConfirm() {
+      if (!this.getReservationId) {
+        message.error("İptal edilecek rezervasyon bulunamadı!");
+        return;
+      }
       Modal.confirm({
         title: () =>
           "Rezervasyon kaydınızı iptal etmek istediğinize emin misiniz?",
@@ -66,6 +83,7 @@ export default {
         cancelText: () => "Hayır",
         onOk: () =>
           this.removeReservation().then(() => {
+            this.deleted = true;
             message.success("Silme işlemi başarıyla gerçekleşti!");
           }),
       });

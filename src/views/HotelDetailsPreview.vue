@@ -1,7 +1,7 @@
 <template>
   <div v-if="hotelData">
     <b>{{ hotelData.selectedHotel.hotel_name }}</b>
-    <div style="text-align: center">
+    <div class="center">
       <a-row :gutter="[16, 24]">
         <a-col :span="12">
           <a-card class="preview">

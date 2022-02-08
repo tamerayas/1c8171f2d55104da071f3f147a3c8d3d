@@ -22,7 +22,7 @@ import RoomTypeSelection from "@/views/RoomTypeSelection";
 import LandscapeSelection from "@/views/LandscapeSelection";
 import Main from "@/views/Main";
 import Footer from "@/components/Footer";
-import Warning from "@/components/Warning";
+import Warning from "@/pages/Warning";
 export default {
   name: "RoomTypeAndLandscapeSelection",
   components: {

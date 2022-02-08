@@ -22,7 +22,11 @@
       Otel ve Tarih Seçimi
     </a-step>
     <a-step>
-      <template #title>Önizleme ve Ödeme İşlemleri</template>
+      <template #title>
+        <div :class="{ 'step-style': Number(getCurrentStep) < 3 }">
+          Önizleme ve Ödeme İşlemleri
+        </div>
+      </template>
       <template #description v-if="Number(getCurrentStep) === 3">
         <span>İşlemde...</span>
       </template>
@@ -51,6 +55,16 @@ export default {
   },
   computed: {
     ...mapGetters(["getCurrentStep"]),
+    width: {
+      get() {
+        return window.innerWidth;
+      },
+    },
   },
 };
 </script>
+<style scoped>
+.step-style {
+  display: table-column-group;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <h2 style="margin-top: 10px">Manzara Seçimi</h2>
+  <h2 class="mt-10">Manzara Seçimi</h2>
   <a-divider />
   <a-row :gutter="[16, 16]">
     <a-col
@@ -11,7 +11,7 @@
     >
       <a-card
         :span="6"
-        style="border-radius: 10px"
+        class="radius"
         :class="{ active: room.isActive }"
         @click="selectLandscape(room)"
       >
@@ -20,7 +20,7 @@
         <a-row>
           <a-col :span="17"> Fiyata Etki Oranı </a-col>
           <a-col :span="7">
-            <h3 style="text-align: right">+ {{ room.price_rate }} %</h3>
+            <h3 class="right">+ {{ room.price_rate }} %</h3>
           </a-col>
         </a-row>
       </a-card>

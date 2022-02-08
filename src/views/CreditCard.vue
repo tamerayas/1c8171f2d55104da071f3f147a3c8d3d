@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center">
+  <div class="center">
     <img src="" alt="" />
     <div class="card__front card__part">
       <p class="card_number">{{ data.number || "**** **** **** 2323" }}</p>
@@ -30,13 +30,13 @@
       <label>CVV</label>
     </a-col>
     <a-col :span="18">
-      <a-select v-model:value="data.month" style="width: 200px">
+      <a-select v-model:value="data.month" class="w-200">
         <a-select-option value="" defaultActiveFirstOption>Ay</a-select-option>
         <a-select-option v-for="item in monthOptions" :key="item.value">{{
           item.label
         }}</a-select-option>
       </a-select>
-      <a-select v-model:value="data.year" style="width: 200px">
+      <a-select v-model:value="data.year" class="w-200">
         <a-select-option value="" defaultActiveFirstOption>Yıl</a-select-option>
         <a-select-option v-for="item in yearOptions" :key="item.value">{{
           item.label
@@ -126,6 +126,7 @@ export default {
   -moz-transform-style: preserve-3d;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
+  max-width: fit-content;
 }
 
 .card__front {

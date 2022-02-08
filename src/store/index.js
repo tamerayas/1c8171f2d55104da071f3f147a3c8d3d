@@ -96,11 +96,14 @@ export default createStore({
         });
     },
     removeReservation({ commit, rootGetters }) {
-      const reservationId = rootGetters["getReservationId"]
-      axios.delete(`/hotel-bookings/${reservationId}`).then(() => {
-        commit("removeReservation", false);
-        commit("resetAll");
-      });
+      const reservationId = rootGetters["getReservationId"];
+      return axios
+        .delete(`/hotel-bookings/${reservationId}`)
+        .then(({ data }) => {
+          commit("removeReservation", false);
+          commit("resetAll");
+          return data;
+        });
     },
   },
   mutations: {
@@ -131,13 +134,13 @@ export default createStore({
       localStorage.clear();
     },
     setReservationId(_, payload) {
-      localStorage.setItem("reservationId", payload)
+      localStorage.setItem("reservationId", payload);
     },
     updateReservation(state, payload) {
       state.editReservation = payload;
     },
     removeReservation() {
-      localStorage.setItem("reservationId", null)
+      localStorage.setItem("reservationId", null);
     },
   },
   getters: {
@@ -178,7 +181,7 @@ export default createStore({
       return JSON.parse(localStorage.getItem("pricePreview"));
     },
     getReservationId() {
-      return localStorage.getItem("reservationId")
-    }
+      return localStorage.getItem("reservationId");
+    },
   },
 });

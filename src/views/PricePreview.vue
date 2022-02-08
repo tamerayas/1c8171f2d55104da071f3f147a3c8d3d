@@ -26,14 +26,14 @@
             <b class="fl-r"> {{ selectedRoom.calculatedPrice }} TL</b>
           </a-col>
         </a-row>
-        <a-row>
+        <a-row v-if="couponCodeVal">
           <a-col :span="12"> <b>İndirim</b> ({{ couponCodeVal }}) </a-col>
           <a-col :span="12">
             <b class="fl-r"> -{{ appliedCouponPriceVal }} TL</b>
           </a-col>
         </a-row>
         <a-divider></a-divider>
-        <div style="text-align: center">
+        <div class="center">
           <b>Toplam Tutar</b>
           <h1>{{ totalPrice }} TL</h1>
         </div>
@@ -45,7 +45,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import Warning from "@/components/Warning";
+import Warning from "@/pages/Warning";
 export default {
   name: "PricePreview",
   components: {
@@ -68,8 +68,8 @@ export default {
     }),
     priceRate: {
       get() {
-        const calculatedPrice = this.selectedRoom.calculatedPrice;
-        const priceRate = this.landscape.price_rate;
+        const calculatedPrice = this.selectedRoom?.calculatedPrice;
+        const priceRate = this.landscape?.price_rate;
         return (
           Number(calculatedPrice) + (Number(calculatedPrice) * priceRate) / 100
         );
@@ -77,8 +77,8 @@ export default {
     },
     totalPrice: {
       get() {
-        const calculatedPrice = Number(this.selectedRoom.calculatedPrice);
-        const priceRate = this.landscape.price_rate;
+        const calculatedPrice = Number(this.selectedRoom?.calculatedPrice);
+        const priceRate = this.landscape?.price_rate;
         return (
           calculatedPrice +
           (calculatedPrice * priceRate) / 100 -
@@ -106,12 +106,11 @@ export default {
   methods: {
     ...mapMutations(["setPricePreview"]),
   },
-  //Bak
   mounted() {
     this.setPricePreview({
-      price: this.selectedRoom.price.toLocaleString(),
-      priceRate: this.landscape.price_rate,
-      dayCount: this.selectedRoom.dayCount,
+      price: this.selectedRoom?.price.toLocaleString(),
+      priceRate: this.landscape?.price_rate,
+      dayCount: this.selectedRoom?.dayCount,
       calculatedPrice: this.calculatedPrice,
       couponCode: this.couponCodeVal,
       appliedCouponCodePrice: this.appliedCouponPriceVal,

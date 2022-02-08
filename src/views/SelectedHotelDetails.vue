@@ -1,6 +1,6 @@
 <template>
   <a-card class="hotel-detail-card" v-if="hotelData">
-    <h2>{{ hotelData.selectedHotel.hotel_name || "-" }}</h2>
+    <h2>{{ hotelData?.selectedHotel.hotel_name || "-" }}</h2>
     <b>Giriş Tarihi:</b>
     {{ moment(hotelData.entryDate).format("DD.MM.YYYY") }} -
     <b>Çıkış Tarihi:</b>

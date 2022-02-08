@@ -4,7 +4,7 @@
       <a-select
         placeholder="Rezervasyon yapmak istediğiniz oteli seçiniz."
         class="hotel-selection"
-        v-model:value="data.selectedHotel.hotel_name"
+        :value="getSelectedHotelAndDateData?.selectedHotel.hotel_name"
       >
         <a-select-option
           v-for="(hotel, index) in hotelsDetail.hotels"
@@ -27,11 +27,12 @@
                 <a-date-picker
                   v-model:value="data.entryDate"
                   format="DD.MM.YYYY"
-                  style="width: 100%"
+                  class="full-width"
+                  :disabled-date="disabledStartDate"
                 />
               </a-col>
               <a-col :span="4">
-                <CalendarOutlined style="font-size: 30px" />
+                <CalendarOutlined class="font-30" />
               </a-col>
             </a-row>
           </a-card>
@@ -49,12 +50,12 @@
                 <a-date-picker
                   v-model:value="data.outDate"
                   format="DD.MM.YYYY"
-                  style="width: 100%"
-                  :disabled-date="disabledDate"
+                  class="full-width"
+                  :disabled-date="disabledEndDate"
                 />
               </a-col>
               <a-col :span="4">
-                <CalendarOutlined style="font-size: 30px" />
+                <CalendarOutlined class="font-30" />
               </a-col>
             </a-row>
           </a-card>
@@ -71,7 +72,7 @@
               v-model:value="data.adultCount"
               :min="0"
               :max="maxAdultSize"
-              style="width: 100%"
+              class="full-width"
             />
           </a-card>
         </a-col>
@@ -88,7 +89,7 @@
               v-model:value="data.childrenCount"
               :min="0"
               :max="5"
-              style="width: 100%"
+              class="full-width"
               :disabled="!childStatus"
             />
             <div v-if="!childStatus">Çocuk ziyaretçi kabul edilmiyor!</div>
@@ -121,6 +122,7 @@ export default {
           hotel_name: "",
           id: null,
         },
+        selectedHotelId: null,
         entryDate: null,
         outDate: null,
         adultCount: null,
@@ -155,12 +157,18 @@ export default {
     getSelectedHotelDetail() {
       return (
         this.hotelsDetail.details.find(
-          (hotel) => hotel.id === this.data.selectedHotel.id
+          (hotel) => hotel.id === this.data.selectedHotelId
         ) || {}
       );
     },
-    disabledDate(current) {
-      return current && current < moment(this.data.entryDate);
+    disabledEndDate(current) {
+      return current && current < moment(this.data.entryDate).add(1, "days");
+    },
+    disabledStartDate(current) {
+      return (
+        (current && current < moment().add(-1, "days")) ||
+        current > moment(this.data.outDate)
+      );
     },
     setSelectedHotel(hotel) {
       this.data.selectedHotel = hotel;
@@ -168,18 +176,22 @@ export default {
     },
     save() {
       const isValid =
-        typeof this.data.selectedHotel &&
+        this.data.selectedHotel.hotel_name &&
         this.data.entryDate &&
         this.data.outDate &&
         this.data.adultCount !== null;
 
-      if (isValid) {
-        return this.saveHotelAndDateSelection(this.data).then(() => {
-          this.$router.push({ name: "RoomTypeAndLandscapeSelection" });
-        });
+      if (!this.childStatus) {
+        this.data.childrenCount = 0;
+      }
+      if (!isValid) {
+        this.$message.error("Lütfen tüm zorunlu alanları doldurunuz.");
+        return;
       }
 
-      return this.$message.error("Lütfen tüm zorunlu alanları doldurunuz.");
+      return this.saveHotelAndDateSelection(this.data).then(() => {
+        this.$router.push({ name: "RoomTypeAndLandscapeSelection" });
+      });
     },
   },
   created() {

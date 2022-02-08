@@ -1,5 +1,5 @@
 <template>
-  <h2 style="margin-top: 10px">Oda Tipi Seçimi</h2>
+  <h2 class="mt-10">Oda Tipi Seçimi</h2>
   <a-divider />
   <a-row :gutter="[16, 16]">
     <a-col
@@ -11,7 +11,7 @@
     >
       <a-card
         :span="6"
-        style="border-radius: 10px"
+        class="radius"
         @click="selectRoom(room)"
         :class="{ active: room.isActive }"
       >
@@ -23,7 +23,7 @@
             <div>{{ getSelectedHotelAndDateData.adultCount }} Yetişkin</div>
           </a-col>
           <a-col :span="6">
-            <h3 style="text-align: right">
+            <h3 class="right">
               {{ calculatePrice(room.price).toLocaleString() }} TL
             </h3>
           </a-col>

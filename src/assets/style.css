@@ -65,6 +65,10 @@
   border: 1px solid #009e0f;
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
@@ -89,4 +93,42 @@
 
 .mr-20 {
   margin-right: 20px;
+}
+
+.alert {
+  border: 1px solid;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.fl-r {
+  float: right;
+}
+
+.icon {
+  font-size: 50px;
+  color: #009e0f;
+  display: block;
+}
+
+.w-200 {
+  width: 200px;
+}
+
+.font-30 {
+  font-size: 30px;
+}
+
+.radius {
+  border-radius: 10px;
 }
