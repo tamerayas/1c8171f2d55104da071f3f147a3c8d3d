@@ -1,10 +1,19 @@
 # 1c8171f2d55104da071f3f147a3c8d3d
 
 It s a Hotel Reservation System what coded with Vue.js.
+
 User data is stored in localStorage.
+
 It contains error pages in response to data loss.
+
 You can easyly create a new reservation while you can see costs, lanscape informations and with other features.
+
 Also you can edit and delete your last reservation directly on the system
+
+You can review the project on the following link
+
+https://1c8171f2d55104da071f3f147a3c8d3d.vercel.app/
+
 
 ## Project setup
 ```
